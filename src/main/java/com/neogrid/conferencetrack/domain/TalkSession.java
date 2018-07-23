@@ -46,6 +46,6 @@ public class TalkSession {
 
     @Override
     public String toString() {
-        return String.format("%s %s", startTime, talk);
+        return String.format("%s %s %dmin", startTime, talk.getTitle(), talk.getDuration());
     }
 }

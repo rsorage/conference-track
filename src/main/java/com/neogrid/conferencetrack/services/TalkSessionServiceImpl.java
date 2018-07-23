@@ -32,11 +32,17 @@ public class TalkSessionServiceImpl implements TalkSessionService {
             if(!nextSessionTime.before(SESSION_END))
                 break;
 
-            if(!nextSessionTime.before(BREAK_START) && nextSessionTime.before(BREAK_END))
-                nextSessionTime = new Time(BREAK_END);
+            if(!nextSessionTime.before(BREAK_START) && nextSessionTime.before(BREAK_END)) {
+                ConferenceTalk lunch = new ConferenceTalk("Lunch", 60);
+                sessions.add(new TalkSession(lunch, BREAK_START,  BREAK_END));
 
-            TalkSession newSession = new TalkSession(talk, startSessionTime, nextSessionTime);
-            sessions.add(newSession);
+                nextSessionTime = new Time(BREAK_END);
+            }
+            else {
+                TalkSession newSession = new TalkSession(talk, startSessionTime, nextSessionTime);
+                sessions.add(newSession);
+            }
+
 
             startSessionTime = nextSessionTime;
         }
