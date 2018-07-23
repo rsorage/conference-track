@@ -32,6 +32,9 @@ public class TalkSessionServiceImpl implements TalkSessionService {
             if(!nextSessionTime.before(SESSION_END))
                 break;
 
+            if(!nextSessionTime.before(BREAK_START) && nextSessionTime.before(BREAK_END))
+                nextSessionTime = new Time(BREAK_END);
+
             TalkSession newSession = new TalkSession(talk, startSessionTime, nextSessionTime);
             sessions.add(newSession);
 

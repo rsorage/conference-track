@@ -4,15 +4,11 @@ import com.neogrid.conferencetrack.domain.ConferenceTalk;
 import com.neogrid.conferencetrack.domain.TalkSession;
 import com.neogrid.conferencetrack.services.ConferenceTalkFileService;
 import com.neogrid.conferencetrack.services.TalkSessionService;
-import com.neogrid.conferencetrack.util.TalkDurationComparator;
-import com.neogrid.conferencetrack.util.Time;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Component
