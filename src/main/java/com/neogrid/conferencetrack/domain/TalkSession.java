@@ -8,6 +8,18 @@ public class TalkSession {
     private Time startTime;
     private Time endTime;
 
+    public TalkSession(ConferenceTalk talk, Time startTime, Time endTime) {
+        this.talk = talk;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public TalkSession(ConferenceTalk talk, Time startTime, int duration) {
+        this.talk = talk;
+        this.startTime = startTime;
+        this.endTime = startTime.plusMinutes(duration);
+    }
+
     public ConferenceTalk getTalk() {
         return talk;
     }
@@ -34,6 +46,6 @@ public class TalkSession {
 
     @Override
     public String toString() {
-        return String.format("TalkSession [talk='%s', startTime=%s, endTime='%s']", talk, startTime, endTime);
+        return String.format("%s %s", startTime, talk);
     }
 }

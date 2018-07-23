@@ -14,7 +14,7 @@ public class Time {
     public Time(int hour, int minute) {
         if(hour < 0 || hour > 23)
             throw new IllegalArgumentException(String.format("Invalid hour: %d", hour));
-        if(minute > 59)
+        if(minute < 0 || minute > 59)
             throw new IllegalArgumentException(String.format("Invalid minute: %d", minute));
 
         this.hour = hour;
@@ -25,6 +25,22 @@ public class Time {
     public Time(Time another) {
         this.hour = another.hour;
         this.minute = another.minute;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 
     public static Time now() {
@@ -40,6 +56,36 @@ public class Time {
             return true;
 
         return false;
+    }
+
+    /**
+     * Add given minutes to current time object.
+     *
+     * @param minutes Minutes to be added to current time object.
+     */
+    public void addMinutes(int minutes) {
+        int totalMinutes = this.getMinute() + minutes;
+
+        int newHour = this.hour + (totalMinutes / 60);
+        int newMinute = totalMinutes % 60;
+
+        setHour(newHour);
+        setMinute(newMinute);
+    }
+
+    /**
+     * Creates a new time object with added minutes.
+     *
+     * @param minutes Minutes to be added.
+     * @return New time object.
+     */
+    public Time plusMinutes(int minutes) {
+        int totalMinutes = this.getMinute() + minutes;
+
+        int newHour = this.hour + (totalMinutes / 60);
+        int newMinute = totalMinutes % 60;
+
+        return new Time(newHour, newMinute);
     }
 
     @Override

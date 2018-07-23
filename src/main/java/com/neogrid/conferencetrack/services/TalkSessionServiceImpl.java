@@ -6,7 +6,6 @@ import com.neogrid.conferencetrack.util.Time;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class TalkSessionServiceImpl implements TalkSessionService {
@@ -24,15 +23,25 @@ public class TalkSessionServiceImpl implements TalkSessionService {
 
     @Override
     public Collection<TalkSession> schedule(List<ConferenceTalk> availableTalks) {
-        Map<Integer, List<ConferenceTalk>> talksByDuration = availableTalks.stream()
-                .collect(Collectors.groupingBy(ConferenceTalk::getDuration, LinkedHashMap::new, Collectors.toList()));
+        List<TalkSession> sessions = new LinkedList<>();
+        Time startSessionTime = new Time(SESSION_START);
 
-        Time nextSessionTime = new Time(SESSION_START);
-        Set<Integer> durations = talksByDuration.keySet();
+        for(ConferenceTalk talk: availableTalks) {
+            Time nextSessionTime = startSessionTime.plusMinutes(talk.getDuration());
 
-//        while(nextSessionTime)
+            if(!nextSessionTime.before(SESSION_END))
+                break;
 
+            TalkSession newSession = new TalkSession(talk, startSessionTime, nextSessionTime);
+            sessions.add(newSession);
 
-        return null;
+            startSessionTime = nextSessionTime;
+        }
+
+        ConferenceTalk networkingTalk = new ConferenceTalk("Networking Event", 0);
+        TalkSession networkingSession = new TalkSession(networkingTalk, startSessionTime, 0);
+        sessions.add(networkingSession);
+
+        return sessions;
     }
 }
